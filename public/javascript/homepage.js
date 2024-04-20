@@ -3,21 +3,35 @@ let year;
 uri = "";
 var fileFlag = 0;
 
+var posts = [];
 
-const postsRef = db.collection('posts');
+const postsRef = db.collection("posts");
 
 const query = postsRef.limit(6);
 
-query.get().then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-    // Process each document here
-    console.log('Document data:', doc.data());
+query
+  .orderBy("time", "desc")
+  .get()
+  .then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      // Process each document here
+      posts.push(doc.data());
+
+      // console.log('Document data:', doc.data().content);
+    });
+
+    console.log(posts[0].link);
+    console.log(document.getElementById("img1").src);
+    console.log(document.getElementById("img2").src);
+    console.log(document.getElementById("img3").src);
+    console.log(document.getElementById("img4").src);
+    console.log(document.getElementById("img5").src);
+    console.log(document.getElementById("img6").src);
   });
-});
 
 document.getElementById("post-btn").addEventListener("click", () => {
   console.log(fileFlag);
-  if ((fileFlag !=0)) {
+  if (fileFlag != 0) {
     content = document.getElementById("content").value;
     const storageRef = storage.ref().child("myimages");
     const folderRef = storageRef.child(fileName);
@@ -63,8 +77,7 @@ document.getElementById("post-btn").addEventListener("click", () => {
         console.log("File Uploaded Successfully");
       }
     );
-  }
-  else{
+  } else {
     content = document.getElementById("content").value;
     db.collection("posts").add({
       content: content,
