@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=<h1>, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<% console.log(yr) %>
+
+  <body>
+
+    <h1 id="main">
+      <%= yr %>
+    </h1>
+
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-storage.js"></script>
+    <script>
+      // Initialize Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyApIj5vsg7mHvlFsXFQRSAbKwjX_sLFnFA",
+        authDomain: "bit-wizards.firebaseapp.com",
+        projectId: "bit-wizards",
+        storageBucket: "bit-wizards.appspot.com",
+        messagingSenderId: "851573876220",
+        appId: "1:851573876220:web:d7c398f50bc45456f4be79",
+        measurementId: "G-0Z5G3EXV79"
+      };
+      const app = firebase.initializeApp(firebaseConfig);
+
+      // make auth and firestore references
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      db.settings({ timestampsInSnapshots: true });
+      const storage = firebase.storage();
+
+      var year = (document.getElementById("main").innerText)
+      db.collection('users').where('year','==',year).get().then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          console.log(doc.data())
+        });
+      });
+    </script>
+  </body>
+
+</html>
